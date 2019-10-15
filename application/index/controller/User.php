@@ -16,7 +16,7 @@ use think\Validate;
 class User extends Frontend
 {
     protected $layout = 'default';
-    protected $noNeedLogin = ['login', 'register', 'third'];
+    protected $noNeedLogin = ['login', 'register', 'third','register1'];
     protected $noNeedRight = ['*'];
 
     public function _initialize()
@@ -72,26 +72,24 @@ class User extends Frontend
     }
 
     /**
-     * 注册会员
+     * 学生注册
      */
     public function register()
     {
         $url = $this->request->request('url', '', 'trim');
-        if ($this->auth->id) {
-            $this->success(__('You\'ve logged in, do not login again'), $url ? $url : url('user/index'));
-        }
+
         if ($this->request->isPost()) {
             $username = $this->request->post('username');
             $password = $this->request->post('password');
             $email = $this->request->post('email');
-            $mobile = $this->request->post('mobile', '');
-            $captcha = $this->request->post('captcha');
+//            $mobile = $this->request->post('mobile', '');
+//            $captcha = $this->request->post('captcha');
             $token = $this->request->post('__token__');
             $rule = [
                 'username'  => 'require|length:3,30',
                 'password'  => 'require|length:6,30',
                 'email'     => 'require|email',
-                'mobile'    => 'regex:/^1\d{10}$/',
+//                'mobile'    => 'regex:/^1\d{10}$/',
                 '__token__' => 'require|token',
             ];
 
@@ -103,27 +101,27 @@ class User extends Frontend
                 //'captcha.require'  => 'Captcha can not be empty',
                 //'captcha.captcha'  => 'Captcha is incorrect',
                 'email'            => 'Email is incorrect',
-                'mobile'           => 'Mobile is incorrect',
+//                'mobile'           => 'Mobile is incorrect',
             ];
             $data = [
                 'username'  => $username,
                 'password'  => $password,
                 'email'     => $email,
-                'mobile'    => $mobile,
+//                'mobile'    => $mobile,
                 //'captcha'   => $captcha,
                 '__token__' => $token,
             ];
-            $ret = Sms::check($mobile, $captcha, 'register');
-            if (!$ret) {
-                $this->error(__('Captcha is incorrect'));
-            }
+//            $ret = Sms::check($mobile, $captcha, 'register');
+//            if (!$ret) {
+//                $this->error(__('Captcha is incorrect'));
+//            }
             $validate = new Validate($rule, $msg);
             $result = $validate->check($data);
             if (!$result) {
                 $this->error(__($validate->getError()), null, ['token' => $this->request->token()]);
             }
-            if ($this->auth->register($username, $password, $email, $mobile)) {
-                $this->success(__('Sign up successful'), $url ? $url : url('user/index'));
+            if ($this->auth->register($username, $password, $email,$group=4)) {
+                $this->success(__('Sign up successful'), 'http://localhost:83/iJrHwhMuW0.php/index/login');
             } else {
                 $this->error($this->auth->getError(), null, ['token' => $this->request->token()]);
             }
@@ -135,9 +133,23 @@ class User extends Frontend
             $url = $referer;
         }
         $this->view->assign('url', $url);
-        $this->view->assign('title', __('Register'));
+        $this->view->assign('title', __('Student Sign up'));
         return $this->view->fetch();
     }
+
+    /**
+     * 老师注册
+     */
+    public function register1()
+    {
+
+    }
+
+
+
+
+
+
 
     /**
      * 会员登录

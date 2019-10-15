@@ -87,7 +87,7 @@ return [
     'Github'                                                 => 'Github',
     'QQ group'                                               => 'QQ群',
     'Go to Dashboard'                                        => '登录后台',
-    'Go to Member center'                                    => '会员中心',
+    'Go to Member center'                                    => '用户注册',
     'Contribution'                                           => '为FastAdmin贡献代码!',
     'Copyrights'                                             => '版权所有',
     'Responsive'                                             => '响应式开发',
@@ -123,4 +123,7 @@ return [
     'You have no permission'                                 => '你没有权限访问',
     'An unexpected error occurred'                           => '发生了一个意外错误,程序猿正在紧急处理中',
     'This page will be re-directed in %s seconds'            => '页面将在 %s 秒后自动跳转',
+    'Teacher Sign up'                                        => '老师注册',
+    'Student Sign up'                                        => '学生注册',
+    'User Sign in'                                           => '用户登录',
 ];

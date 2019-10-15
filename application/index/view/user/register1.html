@@ -1,6 +1,6 @@
 <div id="content-container" class="container">
     <div class="user-section login-section">
-        <div class="logon-tab clearfix"> <a href="{:url('user/register1')}?url={$url|urlencode}">{:__('Teacher Sign up')}</a> <a class="active">{:__('Student Sign up')}</a> </div>
+        <div class="logon-tab clearfix"> <a class="active">{:__('Teacher Sign up')}</a> <a href="{:url('user/register')}?url={$url|urlencode}">{:__('Student Sign up')}</a> </div>
         <div class="login-main"> 
             <form name="form1" id="register-form" class="form-vertical" method="POST" action="">
                 <input type="hidden" name="invite_user_id" value="0" />

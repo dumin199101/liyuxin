@@ -15,10 +15,13 @@ class User extends Model
     // 定义时间戳字段名
     protected $createTime = 'createtime';
     protected $updateTime = 'updatetime';
+
+    protected $table = 'admin';
+
     // 追加属性
-    protected $append = [
-        'url',
-    ];
+//    protected $append = [
+//        'url',
+//    ];
 
     /**
      * 获取个人URL
@@ -26,10 +29,10 @@ class User extends Model
      * @param   array  $data
      * @return string
      */
-    public function getUrlAttr($value, $data)
-    {
-        return "/u/" . $data['id'];
-    }
+//    public function getUrlAttr($value, $data)
+//    {
+//        return "/u/" . $data['id'];
+//    }
 
     /**
      * 获取头像
@@ -37,23 +40,23 @@ class User extends Model
      * @param   array  $data
      * @return string
      */
-    public function getAvatarAttr($value, $data)
-    {
-        if (!$value) {
-            //如果不需要启用首字母头像，请使用
-            //$value = '/assets/img/avatar.png';
-            $value = letter_avatar($data['nickname']);
-        }
-        return $value;
-    }
+//    public function getAvatarAttr($value, $data)
+//    {
+//        if (!$value) {
+//            //如果不需要启用首字母头像，请使用
+//            //$value = '/assets/img/avatar.png';
+//            $value = letter_avatar($data['nickname']);
+//        }
+//        return $value;
+//    }
 
     /**
      * 获取会员的组别
      */
-    public function getGroupAttr($value, $data)
-    {
-        return UserGroup::get($data['group_id']);
-    }
+//    public function getGroupAttr($value, $data)
+//    {
+//        return UserGroup::get($data['group_id']);
+//    }
 
     /**
      * 获取验证字段数组值
@@ -85,18 +88,18 @@ class User extends Model
      * @param int    $user_id 会员ID
      * @param string $memo    备注
      */
-    public static function money($money, $user_id, $memo)
-    {
-        $user = self::get($user_id);
-        if ($user && $money != 0) {
-            $before = $user->money;
-            $after = $user->money + $money;
-            //更新会员信息
-            $user->save(['money' => $after]);
-            //写入日志
-            MoneyLog::create(['user_id' => $user_id, 'money' => $money, 'before' => $before, 'after' => $after, 'memo' => $memo]);
-        }
-    }
+//    public static function money($money, $user_id, $memo)
+//    {
+//        $user = self::get($user_id);
+//        if ($user && $money != 0) {
+//            $before = $user->money;
+//            $after = $user->money + $money;
+//            //更新会员信息
+//            $user->save(['money' => $after]);
+//            //写入日志
+//            MoneyLog::create(['user_id' => $user_id, 'money' => $money, 'before' => $before, 'after' => $after, 'memo' => $memo]);
+//        }
+//    }
 
     /**
      * 变更会员积分
@@ -104,34 +107,34 @@ class User extends Model
      * @param int    $user_id 会员ID
      * @param string $memo    备注
      */
-    public static function score($score, $user_id, $memo)
-    {
-        $user = self::get($user_id);
-        if ($user && $score != 0) {
-            $before = $user->score;
-            $after = $user->score + $score;
-            $level = self::nextlevel($after);
-            //更新会员信息
-            $user->save(['score' => $after, 'level' => $level]);
-            //写入日志
-            ScoreLog::create(['user_id' => $user_id, 'score' => $score, 'before' => $before, 'after' => $after, 'memo' => $memo]);
-        }
-    }
+//    public static function score($score, $user_id, $memo)
+//    {
+//        $user = self::get($user_id);
+//        if ($user && $score != 0) {
+//            $before = $user->score;
+//            $after = $user->score + $score;
+//            $level = self::nextlevel($after);
+//            //更新会员信息
+//            $user->save(['score' => $after, 'level' => $level]);
+//            //写入日志
+//            ScoreLog::create(['user_id' => $user_id, 'score' => $score, 'before' => $before, 'after' => $after, 'memo' => $memo]);
+//        }
+//    }
 
     /**
      * 根据积分获取等级
      * @param int $score 积分
      * @return int
      */
-    public static function nextlevel($score = 0)
-    {
-        $lv = array(1 => 0, 2 => 30, 3 => 100, 4 => 500, 5 => 1000, 6 => 2000, 7 => 3000, 8 => 5000, 9 => 8000, 10 => 10000);
-        $level = 1;
-        foreach ($lv as $key => $value) {
-            if ($score >= $value) {
-                $level = $key;
-            }
-        }
-        return $level;
-    }
+//    public static function nextlevel($score = 0)
+//    {
+//        $lv = array(1 => 0, 2 => 30, 3 => 100, 4 => 500, 5 => 1000, 6 => 2000, 7 => 3000, 8 => 5000, 9 => 8000, 10 => 10000);
+//        $level = 1;
+//        foreach ($lv as $key => $value) {
+//            if ($score >= $value) {
+//                $level = $key;
+//            }
+//        }
+//        return $level;
+//    }
 }
