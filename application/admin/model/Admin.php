@@ -14,6 +14,7 @@ class Admin extends Model
     protected $createTime = 'createtime';
     protected $updateTime = 'updatetime';
 
+
     /**
      * 重置用户密码
      * @author baiyouwen

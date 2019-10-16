@@ -12,7 +12,7 @@ return array (
     'backend' => 'zh-cn',
     'frontend' => 'zh-cn',
   ),
-  'fixedpage' => 'dashboard',
+  'fixedpage' => 'general/config',
   'categorytype' => 
   array (
     'default' => 'Default',
@@ -23,16 +23,5 @@ return array (
   'configgroup' => 
   array (
     'basic' => 'Basic',
-    'email' => 'Email',
-    'dictionary' => 'Dictionary',
-    'user' => 'User',
-    'example' => 'Example',
-  ),
-  'mail_type' => '1',
-  'mail_smtp_host' => 'smtp.qq.com',
-  'mail_smtp_port' => '465',
-  'mail_smtp_user' => '10000',
-  'mail_smtp_pass' => 'password',
-  'mail_verify_type' => '2',
-  'mail_from' => '10000@qq.com',
+  )
 );
