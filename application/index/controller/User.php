@@ -120,6 +120,7 @@ class User extends Frontend
             if (!$result) {
                 $this->error(__($validate->getError()), null, ['token' => $this->request->token()]);
             }
+            //学生角色组ID为4
             if ($this->auth->register($username, $password, $email,$group=4)) {
                 $this->success(__('Sign up successful'), 'http://localhost:83/iJrHwhMuW0.php/index/login');
             } else {
@@ -142,6 +143,66 @@ class User extends Frontend
      */
     public function register1()
     {
+        $url = $this->request->request('url', '', 'trim');
+
+        if ($this->request->isPost()) {
+            $username = $this->request->post('username');
+            $password = $this->request->post('password');
+            $email = $this->request->post('email');
+//            $mobile = $this->request->post('mobile', '');
+//            $captcha = $this->request->post('captcha');
+            $token = $this->request->post('__token__');
+            $rule = [
+                'username'  => 'require|length:3,30',
+                'password'  => 'require|length:6,30',
+                'email'     => 'require|email',
+//                'mobile'    => 'regex:/^1\d{10}$/',
+                '__token__' => 'require|token',
+            ];
+
+            $msg = [
+                'username.require' => 'Username can not be empty',
+                'username.length'  => 'Username must be 3 to 30 characters',
+                'password.require' => 'Password can not be empty',
+                'password.length'  => 'Password must be 6 to 30 characters',
+                //'captcha.require'  => 'Captcha can not be empty',
+                //'captcha.captcha'  => 'Captcha is incorrect',
+                'email'            => 'Email is incorrect',
+//                'mobile'           => 'Mobile is incorrect',
+            ];
+            $data = [
+                'username'  => $username,
+                'password'  => $password,
+                'email'     => $email,
+//                'mobile'    => $mobile,
+                //'captcha'   => $captcha,
+                '__token__' => $token,
+            ];
+//            $ret = Sms::check($mobile, $captcha, 'register');
+//            if (!$ret) {
+//                $this->error(__('Captcha is incorrect'));
+//            }
+            $validate = new Validate($rule, $msg);
+            $result = $validate->check($data);
+            if (!$result) {
+                $this->error(__($validate->getError()), null, ['token' => $this->request->token()]);
+            }
+            //老师角色组ID为2
+            if ($this->auth->register($username, $password, $email,$group=2)) {
+                $this->success(__('Sign up successful'), 'http://localhost:83/iJrHwhMuW0.php/index/login');
+            } else {
+                $this->error($this->auth->getError(), null, ['token' => $this->request->token()]);
+            }
+        }
+        //判断来源
+        $referer = $this->request->server('HTTP_REFERER');
+        if (!$url && (strtolower(parse_url($referer, PHP_URL_HOST)) == strtolower($this->request->host()))
+            && !preg_match("/(user\/login|user\/register|user\/logout)/i", $referer)) {
+            $url = $referer;
+        }
+        $this->view->assign('url', $url);
+        $this->view->assign('title', __('Student Sign up'));
+        return $this->view->fetch();
 
     }
 

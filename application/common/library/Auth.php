@@ -2,6 +2,7 @@
 
 namespace app\common\library;
 
+use app\common\model\AuthGroupAccess;
 use app\common\model\User;
 use app\common\model\UserRule;
 use fast\Random;
@@ -123,7 +124,7 @@ class Auth
      * @param array  $extend   扩展参数
      * @return boolean
      */
-    public function register($username, $password, $email = '', $mobile = '', $group=0, $extend = [])
+    public function register($username, $password, $email = '', $group, $extend = [])
     {
         // 检测用户名或邮箱、手机号是否存在
         if (User::getByUsername($username)) {
@@ -134,10 +135,10 @@ class Auth
             $this->setError('Email already exist');
             return false;
         }
-        if ($mobile && User::getByMobile($mobile)) {
-            $this->setError('Mobile already exist');
-            return false;
-        }
+//        if ($mobile && User::getByMobile($mobile)) {
+//            $this->setError('Mobile already exist');
+//            return false;
+//        }
 
         $ip = request()->ip();
         $time = time();
@@ -146,8 +147,8 @@ class Auth
             'username' => $username,
             'password' => $password,
             'email'    => $email,
-            'mobile'   => $mobile,
-            'avatar'   => '',
+//            'mobile'   => $mobile,
+            'avatar'   => '/assets/img/avatar.png',
         ];
         $params = array_merge($data, [
             'nickname'  => $username,
@@ -164,8 +165,11 @@ class Auth
         try {
             $user = User::create($params, true);
 
-            //添加auth_group_access表
-
+            //添加权限到auth_group_access表
+            AuthGroupAccess::create([
+                'uid' => $user->id,
+                'group_id' => $group
+            ]);
 
             $this->_user = User::get($user->id);
 

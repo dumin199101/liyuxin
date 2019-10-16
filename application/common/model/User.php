@@ -16,7 +16,7 @@ class User extends Model
     protected $createTime = 'createtime';
     protected $updateTime = 'updatetime';
 
-    protected $table = 'admin';
+    protected $name = 'admin';
 
     // 追加属性
 //    protected $append = [

@@ -61,6 +61,19 @@ define(['jquery', 'bootstrap', 'frontend', 'form', 'template'], function ($, und
                 $("input[name=captcha]").next(".input-group-addon").find("img").trigger("click");
             });
         },
+        register1: function () {
+            //本地验证未通过时提示
+            $("#register-form").data("validator-options", validatoroptions);
+
+            //为表单绑定事件
+            Form.api.bindevent($("#register-form"), function (data, ret) {
+                setTimeout(function () {
+                    location.href = ret.url ? ret.url : "/";
+                }, 1000);
+            }, function (data) {
+                $("input[name=captcha]").next(".input-group-addon").find("img").trigger("click");
+            });
+        },
         changepwd: function () {
             //本地验证未通过时提示
             $("#changepwd-form").data("validator-options", validatoroptions);

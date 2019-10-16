@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'name' => 'FastAdmin',
+  'name' => '竞赛项目管理系统',
   'beian' => '',
   'cdnurl' => '',
   'version' => '1.0.1',
