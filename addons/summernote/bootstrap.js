@@ -1,5 +1,4 @@
-define([], function () {
-    require.config({
+require.config({
     paths: {
         'summernote': '../addons/summernote/lang/summernote-zh-CN.min'
     },
@@ -112,6 +111,4 @@ require(['form', 'upload'], function (Form, Upload) {
         }
 
     };
-});
-
 });
